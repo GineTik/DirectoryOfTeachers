@@ -1,4 +1,5 @@
 ﻿using DirectoryOfTeachers.Bot.Commands;
+using DirectoryOfTeachers.Bot.Dialogs;
 using DirectoryOfTeachers.Bot.Helpers;
 using DirectoryOfTeachers.Bot.Parameters;
 using Telegram.Bot;
@@ -9,11 +10,13 @@ namespace DirectoryOfTeachers.Bot.Handlers
 {
     public class CommandHandler : IHandler
     {
-        private readonly DialogHandler _dialogHandler;
+        private readonly IServiceProvider _serviceProvider;
+        private readonly DialogStack _dialogStack;
 
-        public CommandHandler(DialogHandler dialogHandler)
+        public CommandHandler(IServiceProvider serviceProvider, DialogStack dialogStack)
         {
-            _dialogHandler = dialogHandler;
+            _serviceProvider = serviceProvider;
+            _dialogStack = dialogStack;
         }
 
         public bool CanHandle(Update update)
@@ -30,11 +33,11 @@ namespace DirectoryOfTeachers.Bot.Handlers
             var message = update.Message;
             var commandString = message.Text.Split(' ')[0];
 
-            Command command = CommandHelper.GetCommand(commandString);
-            command.Init(_dialogHandler, update);
+            Command? command = CommandHelper.GetCommand(commandString, _serviceProvider);
 
             if (command != null)
             {
+                command.Init(_dialogStack, update);
                 await command.InvokeAsync(new CommandParameters 
                 { 
                     BotClient = botClient,

@@ -1,4 +1,5 @@
-﻿using DirectoryOfTeachers.Bot.Attributes;
+﻿using DirectoryOfTeacher.DataAccess.EF;
+using DirectoryOfTeachers.Bot.Attributes;
 using DirectoryOfTeachers.Bot.Helpers;
 using DirectoryOfTeachers.Bot.Parameters;
 using Telegram.Bot;
@@ -10,7 +11,7 @@ namespace DirectoryOfTeachers.Bot.Commands.CommandImplementations
     {
         public override async Task InvokeAsync(CommandParameters parameters)
         {
-            var commandAttributes = CommandHelper.GetAll();
+            var commandAttributes = CommandHelper.GetAllCommandAttributes();
             var resultMessage = String.Join("\n", commandAttributes.Select(x => x.Command + " - " + x.Description));
 
             var chatId = parameters.ChatId;

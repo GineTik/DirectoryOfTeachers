@@ -1,12 +1,13 @@
 ﻿using DirectoryOfTeachers.Bot.Attributes;
 using DirectoryOfTeachers.Bot.Commands;
+using Microsoft.Extensions.DependencyInjection;
 using System.Reflection;
 
 namespace DirectoryOfTeachers.Bot.Helpers
 {
     public static class CommandHelper
     {
-        public static List<CommandAttribute> GetAll()
+        public static List<CommandAttribute> GetAllCommandAttributes()
         {
             IEnumerable<Type> allTypes = Assembly.GetExecutingAssembly().GetTypes();
 
@@ -18,7 +19,15 @@ namespace DirectoryOfTeachers.Bot.Helpers
             return commandAttributes;
         }
 
-        public static Command? GetCommand(string command)
+        public static IEnumerable<Type> GetCommandTypes()
+        {
+            IEnumerable<Type> types = Assembly.GetExecutingAssembly().GetTypes()
+               .Where(type => type.GetCustomAttributes<CommandAttribute>().Count() != 0);
+
+            return types;
+        }
+
+        public static Type? GetCommandType(string command)
         {
             IEnumerable<Type> handlerTypes = Assembly.GetExecutingAssembly().GetTypes()
                .Where(type => type.GetCustomAttributes<CommandAttribute>()
@@ -27,13 +36,23 @@ namespace DirectoryOfTeachers.Bot.Helpers
             if (handlerTypes.Any())
             {
                 Type handlerType = handlerTypes.First();
-                Command handler = (Command)Activator.CreateInstance(handlerType);
-                return handler;
+                return handlerType;
+                //Command handler = (Command)Activator.CreateInstance(handlerType);
+                //return handler;
             }
             else
             {
                 return null;
             }
+        }
+
+        public static Command? GetCommand(string commandString, IServiceProvider _serviceProvider)
+        {
+            var commands = _serviceProvider.GetServices<Command>();
+            return commands.FirstOrDefault(c =>
+                c.GetType()
+                .GetCustomAttributes<CommandAttribute>()
+                .Any(attr => attr.Command == commandString));
         }
     }
 }

@@ -8,11 +8,13 @@ namespace DirectoryOfTeachers.Bot.Handlers
 {
     public class DialogHandler : IHandler
     {
-        public Dictionary<long, Dialog> Dialogs { get; }
+        public Dictionary<long, Dialog> Dialogs => _stack.Dialogs;
 
-        public DialogHandler()
+        private readonly DialogStack _stack;
+
+        public DialogHandler(DialogStack stack)
         {
-            Dialogs = new Dictionary<long, Dialog>();
+            _stack = stack;
         }
 
         public bool CanHandle(Update update)
@@ -38,22 +40,6 @@ namespace DirectoryOfTeachers.Bot.Handlers
                 BotClient = botClient,
                 Update = update
             });
-        }
-
-        public async Task StartDialogAsync(long chatId, Dialog dialog, DialogParameters parameters)
-        {
-            if (Dialogs.ContainsKey(chatId))
-                DialogEnded(chatId);
-
-            Dialogs.Add(chatId, dialog);
-            dialog.StepsEndedAction = DialogEnded;
-            await dialog.InvokeCurrentStepAsync(parameters);
-        }
-
-        public void DialogEnded(long chatId)
-        {
-            if (Dialogs.ContainsKey(chatId))
-                Dialogs.Remove(chatId);
         }
     }
 }

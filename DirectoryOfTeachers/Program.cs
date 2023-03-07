@@ -1,4 +1,8 @@
-﻿using DirectoryOfTeachers.Bot.Handlers;
+﻿using DirectoryOfTeachers.Bot.Configures;
+using DirectoryOfTeachers.Bot.Configures.ServicesExtensions;
+using DirectoryOfTeachers.Bot.Handlers;
+using Microsoft.Extensions.DependencyInjection;
+using System.Configuration;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 
@@ -6,21 +10,15 @@ namespace DirectoryOfTeachers.Bot
 {
     internal class Program
     {
-        private static List<IHandler> _handlers;
-
-        static Program()
-        {
-            var dialogHandler = new DialogHandler();
-            _handlers = new List<IHandler>()
-            {
-                new CommandHandler(dialogHandler),
-                dialogHandler
-            };
-        }
+        private static ServiceProvider _serviceProvider;
 
         public static async Task Main(string[] args)
         {
-            TelegramBotClient client = new TelegramBotClient("6297259263:AAGFl9aJtYf0f4m2tarQwlZBtwcJLTZTHdM");
+            var services = new ServiceCollection();
+            new DIConfigure().Configure(services);
+            _serviceProvider = services.BuildServiceProvider();
+
+            TelegramBotClient client = new TelegramBotClient(ConfigurationManager.AppSettings["TelegramApi"]);
             client.StartReceiving(Update, Error);
 
             var me = await client.GetMeAsync();
@@ -31,7 +29,8 @@ namespace DirectoryOfTeachers.Bot
 
         private static async Task Update(ITelegramBotClient botClient, Update update, CancellationToken token)
         {
-            foreach (var handler in _handlers)
+            var handlers = _serviceProvider.GetServices<IHandler>();
+            foreach (var handler in handlers)
             {
                 if (handler.CanHandle(update))
                 {
