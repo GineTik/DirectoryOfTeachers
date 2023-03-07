@@ -1,7 +1,8 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Implementations;
 using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
 using DirectoryOfTeacher.DataAccess.EF;
-using DirectoryOfTeachers.Bot.Configures.ServicesExtensions;
+using DirectoryOfTeachers.Framework.Configures;
+using DirectoryOfTeachers.Framework.Configures.ServicesExtensions;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;

@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
 
-namespace DirectoryOfTeachers.Bot.Parameters
+namespace DirectoryOfTeachers.Framework.Parameters
 {
     public class BaseParameters
     {

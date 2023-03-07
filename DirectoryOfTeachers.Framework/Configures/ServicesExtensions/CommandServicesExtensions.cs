@@ -1,9 +1,9 @@
-﻿using DirectoryOfTeachers.Bot.Commands;
-using DirectoryOfTeachers.Bot.Handlers;
-using DirectoryOfTeachers.Bot.Helpers;
+﻿using DirectoryOfTeachers.Framework.Commands;
+using DirectoryOfTeachers.Framework.Handlers;
+using DirectoryOfTeachers.Framework.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DirectoryOfTeachers.Bot.Configures.ServicesExtensions
+namespace DirectoryOfTeachers.Framework.Configures.ServicesExtensions
 {
     public static class CommandServicesExtensions
     {

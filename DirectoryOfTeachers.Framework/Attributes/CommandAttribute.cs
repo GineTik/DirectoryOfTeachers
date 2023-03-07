@@ -1,4 +1,4 @@
-﻿namespace DirectoryOfTeachers.Bot.Attributes
+﻿namespace DirectoryOfTeachers.Framework.Attributes
 {
     [AttributeUsage(AttributeTargets.Class, AllowMultiple = false)]
     public class CommandAttribute : Attribute

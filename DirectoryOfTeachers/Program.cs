@@ -1,6 +1,5 @@
 ﻿using DirectoryOfTeachers.Bot.Configures;
-using DirectoryOfTeachers.Bot.Configures.ServicesExtensions;
-using DirectoryOfTeachers.Bot.Handlers;
+using DirectoryOfTeachers.Framework.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 using System.Configuration;
 using Telegram.Bot;

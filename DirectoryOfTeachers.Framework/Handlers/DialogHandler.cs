@@ -1,10 +1,10 @@
-﻿using DirectoryOfTeachers.Bot.Dialogs;
-using DirectoryOfTeachers.Bot.Parameters;
+﻿using DirectoryOfTeachers.Framework.Dialogs;
+using DirectoryOfTeachers.Framework.Parameters;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
 
-namespace DirectoryOfTeachers.Bot.Handlers
+namespace DirectoryOfTeachers.Framework.Handlers
 {
     public class DialogHandler : IHandler
     {

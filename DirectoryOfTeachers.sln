@@ -5,11 +5,13 @@ VisualStudioVersion = 17.4.33205.214
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectoryOfTeachers.Bot", "DirectoryOfTeachers\DirectoryOfTeachers.Bot.csproj", "{69EFB083-5B3F-4FA4-9019-9B9A9C9020B7}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryOfTeachers.Core", "DirectoryOfTeachers.Core\DirectoryOfTeachers.Core.csproj", "{624F1D46-5E1F-4943-98A7-7D6F00D7CDBD}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectoryOfTeachers.Core", "DirectoryOfTeachers.Core\DirectoryOfTeachers.Core.csproj", "{624F1D46-5E1F-4943-98A7-7D6F00D7CDBD}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryOfTeacher.DataAccess", "DirectoryOfTeacher.DataAccess\DirectoryOfTeacher.DataAccess.csproj", "{A1A6E8EB-B18B-4194-9EB6-13EAA82449F8}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectoryOfTeacher.DataAccess", "DirectoryOfTeacher.DataAccess\DirectoryOfTeacher.DataAccess.csproj", "{A1A6E8EB-B18B-4194-9EB6-13EAA82449F8}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryOfTeacher.BussinessLogic", "DirectoryOfTeacher.BussinessLogic\DirectoryOfTeacher.BussinessLogic.csproj", "{10EEF86A-4B36-4CBA-814C-542B2B92A53B}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "DirectoryOfTeacher.BussinessLogic", "DirectoryOfTeacher.BussinessLogic\DirectoryOfTeacher.BussinessLogic.csproj", "{10EEF86A-4B36-4CBA-814C-542B2B92A53B}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "DirectoryOfTeachers.Framework", "DirectoryOfTeachers.Framework\DirectoryOfTeachers.Framework.csproj", "{602C6940-F760-49A1-9FBB-7764D21EC38C}"
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -33,6 +35,10 @@ Global
 		{10EEF86A-4B36-4CBA-814C-542B2B92A53B}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{10EEF86A-4B36-4CBA-814C-542B2B92A53B}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{10EEF86A-4B36-4CBA-814C-542B2B92A53B}.Release|Any CPU.Build.0 = Release|Any CPU
+		{602C6940-F760-49A1-9FBB-7764D21EC38C}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{602C6940-F760-49A1-9FBB-7764D21EC38C}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{602C6940-F760-49A1-9FBB-7764D21EC38C}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{602C6940-F760-49A1-9FBB-7764D21EC38C}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

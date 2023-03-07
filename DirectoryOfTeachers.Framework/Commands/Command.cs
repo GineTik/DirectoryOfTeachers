@@ -1,8 +1,8 @@
-﻿using DirectoryOfTeachers.Bot.Dialogs;
-using DirectoryOfTeachers.Bot.Parameters;
+﻿using DirectoryOfTeachers.Framework.Dialogs;
+using DirectoryOfTeachers.Framework.Parameters;
 using Telegram.Bot.Types;
 
-namespace DirectoryOfTeachers.Bot.Commands
+namespace DirectoryOfTeachers.Framework.Commands
 {
     public abstract class Command
     {

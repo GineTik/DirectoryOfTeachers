@@ -1,6 +1,6 @@
-﻿using DirectoryOfTeachers.Bot.Dialogs;
+﻿using DirectoryOfTeachers.Framework.Dialogs;
 
-namespace DirectoryOfTeachers.Bot.Parameters
+namespace DirectoryOfTeachers.Framework.Parameters
 {
     public class DialogStepParameters : BaseParameters
     {

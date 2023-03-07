@@ -1,7 +1,7 @@
 ﻿using Telegram.Bot;
 using Telegram.Bot.Types;
 
-namespace DirectoryOfTeachers.Bot.Handlers
+namespace DirectoryOfTeachers.Framework.Handlers
 {
     public interface IHandler
     {

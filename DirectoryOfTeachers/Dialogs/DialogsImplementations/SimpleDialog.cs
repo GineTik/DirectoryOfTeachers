@@ -1,5 +1,6 @@
 ﻿using DirectoryOfTeachers.Bot.Dialogs.DialogSteps.SimpleDialog;
-using DirectoryOfTeachers.Bot.Parameters;
+using DirectoryOfTeachers.Framework.Parameters;
+using DirectoryOfTeachers.Framework.Dialogs;
 using Telegram.Bot;
 
 namespace DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations

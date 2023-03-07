@@ -1,4 +1,4 @@
-﻿namespace DirectoryOfTeachers.Bot.Parameters
+﻿namespace DirectoryOfTeachers.Framework.Parameters
 {
     public class CommandParameters : BaseParameters
     { }

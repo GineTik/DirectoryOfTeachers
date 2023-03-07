@@ -1,15 +1,16 @@
-﻿using DirectoryOfTeachers.Bot.Attributes;
-using DirectoryOfTeachers.Bot.Commands;
+﻿using DirectoryOfTeachers.Framework.Attributes;
+using DirectoryOfTeachers.Framework.Commands;
 using Microsoft.Extensions.DependencyInjection;
+using System.Linq;
 using System.Reflection;
 
-namespace DirectoryOfTeachers.Bot.Helpers
+namespace DirectoryOfTeachers.Framework.Helpers
 {
     public static class CommandHelper
     {
         public static List<CommandAttribute> GetAllCommandAttributes()
         {
-            IEnumerable<Type> allTypes = Assembly.GetExecutingAssembly().GetTypes();
+            IEnumerable<Type> allTypes = GetTypes();
 
             var commandAttributes = new List<CommandAttribute>();
 
@@ -21,24 +22,21 @@ namespace DirectoryOfTeachers.Bot.Helpers
 
         public static IEnumerable<Type> GetCommandTypes()
         {
-            IEnumerable<Type> types = Assembly.GetExecutingAssembly().GetTypes()
-               .Where(type => type.GetCustomAttributes<CommandAttribute>().Count() != 0);
+            IEnumerable<Type> types = GetTypes(type => type.GetCustomAttributes<CommandAttribute>().Count() != 0);
 
             return types;
         }
 
         public static Type? GetCommandType(string command)
         {
-            IEnumerable<Type> handlerTypes = Assembly.GetExecutingAssembly().GetTypes()
-               .Where(type => type.GetCustomAttributes<CommandAttribute>()
+            IEnumerable<Type> handlerTypes = GetTypes(
+                type => type.GetCustomAttributes<CommandAttribute>()
                    .Any(attr => attr.Command == command));
 
             if (handlerTypes.Any())
             {
                 Type handlerType = handlerTypes.First();
                 return handlerType;
-                //Command handler = (Command)Activator.CreateInstance(handlerType);
-                //return handler;
             }
             else
             {
@@ -53,6 +51,15 @@ namespace DirectoryOfTeachers.Bot.Helpers
                 c.GetType()
                 .GetCustomAttributes<CommandAttribute>()
                 .Any(attr => attr.Command == commandString));
+        }
+
+        private static IEnumerable<Type> GetTypes(Predicate<Type>? predicate = null)
+        {
+            if (predicate == null)
+                return Assembly.GetEntryAssembly()?.GetTypes() ?? new Type[0];
+
+            return Assembly.GetEntryAssembly()?.GetTypes()
+               .Where(t => predicate(t)) ?? new Type[0];
         }
     }
 }

@@ -1,4 +1,4 @@
-﻿<Project Sdk="Microsoft.NET.Sdk">
+<Project Sdk="Microsoft.NET.Sdk">
 
   <PropertyGroup>
     <OutputType>Exe</OutputType>
@@ -18,6 +18,7 @@
   <ItemGroup>
     <ProjectReference Include="..\DirectoryOfTeacher.BussinessLogic\DirectoryOfTeacher.BussinessLogic.csproj" />
     <ProjectReference Include="..\DirectoryOfTeacher.DataAccess\DirectoryOfTeacher.DataAccess.csproj" />
+    <ProjectReference Include="..\DirectoryOfTeachers.Framework\DirectoryOfTeachers.Framework.csproj" />
   </ItemGroup>
 
 </Project>

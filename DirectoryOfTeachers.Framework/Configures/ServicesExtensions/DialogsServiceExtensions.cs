@@ -1,8 +1,8 @@
-﻿using DirectoryOfTeachers.Bot.Dialogs;
-using DirectoryOfTeachers.Bot.Handlers;
+﻿using DirectoryOfTeachers.Framework.Dialogs;
+using DirectoryOfTeachers.Framework.Handlers;
 using Microsoft.Extensions.DependencyInjection;
 
-namespace DirectoryOfTeachers.Bot.Configures.ServicesExtensions
+namespace DirectoryOfTeachers.Framework.Configures.ServicesExtensions
 {
     public static class DialogsServiceExtensions
     {

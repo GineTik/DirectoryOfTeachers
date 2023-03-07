@@ -1,8 +1,9 @@
-﻿using DirectoryOfTeachers.Bot.Attributes;
+﻿using DirectoryOfTeachers.Framework.Attributes;
+using DirectoryOfTeachers.Framework.Commands;
+using DirectoryOfTeachers.Framework.Parameters;
 using DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations;
-using DirectoryOfTeachers.Bot.Parameters;
 
-namespace DirectoryOfTeachers.Bot.Commands.CommandImplementations
+namespace DirectoryOfTeachers.Bot.Commands
 {
     [Command("/start_dialog", Description = "Простенький діалог для тесту")]
     public class StartDialogCommand : Command

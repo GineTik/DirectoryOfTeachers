@@ -1,4 +1,4 @@
-﻿namespace DirectoryOfTeachers.Bot.Configures
+﻿namespace DirectoryOfTeachers.Framework.Configures
 {
     public interface IConfigure<T>
     {

@@ -1,6 +1,6 @@
 ﻿using Telegram.Bot.Types;
 
-namespace DirectoryOfTeachers.Bot.Dialogs
+namespace DirectoryOfTeachers.Framework.Dialogs
 {
     public class DialogContext
     {

@@ -1,8 +1,9 @@
-﻿using DirectoryOfTeachers.Bot.Attributes;
-using DirectoryOfTeachers.Bot.Parameters;
+﻿using DirectoryOfTeachers.Framework.Attributes;
+using DirectoryOfTeachers.Framework.Parameters;
+using DirectoryOfTeachers.Framework.Commands;
 using Telegram.Bot;
 
-namespace DirectoryOfTeachers.Bot.Commands.CommandImplementations
+namespace DirectoryOfTeachers.Bot.Commands
 {
     [Command("/start", Description = "Комманда для початку взаємодії з ботом")]
     public class StartCommand : Command
