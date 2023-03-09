@@ -5,49 +5,59 @@ namespace DirectoryOfTeachers.Framework.Dialogs
     public abstract class Dialog
     {
         public Action<long> StepsEndedAction;
-        public DialogContext DialogContext { get; }
+        public DialogContext DialogContext { get; private set; }
+        
+        public bool StepsEnded => _nextStepType == null;
 
-        private List<IDialogStep> Steps => SetSteps();
+        private Type? _nextStepType;
+        private Type? _previosStepType;
+        private IServiceProvider _provider;
 
-        private int _currentStepIndex;
-
-        private IDialogStep? PreviosStep => Steps.ElementAtOrDefault(_currentStepIndex - 1);
-        private IDialogStep? CurrentStep => Steps.ElementAtOrDefault(_currentStepIndex);
-        private IDialogStep? NextStep => Steps.ElementAtOrDefault(_currentStepIndex + 1);
-        private bool StepsEnded => CurrentStep == null;
-
-        public Dialog()
+        public void Init(IServiceProvider provider)
         {
-            _currentStepIndex = 0;
+            if (provider == null)
+                throw new ArgumentNullException(nameof(provider));
+
             DialogContext = new DialogContext();
+            _provider = provider;
         }
 
         public async Task InvokeCurrentStepAsync(DialogParameters parameters)
         {
-            if (Steps == null) 
-                throw new InvalidOperationException("steps is null");
+            if (_previosStepType != null)
+                DialogContext.Messages.Add(_previosStepType.Name, parameters.Message);
 
-            if (PreviosStep != null)
-                DialogContext.Messages.Add(PreviosStep.ToString(), parameters.Update.Message);
-            
             if (StepsEnded == true)
             {
-                StepsEndedCallback(parameters);
+                await StepsEndedCallback(parameters);
                 StepsEndedAction(parameters.ChatId);
                 return;
             }
 
-            await CurrentStep.InvokeAsync(new DialogStepParameters()
+            var step = _provider.GetService(_nextStepType) as DialogStep;
+
+            if (step == null)
+                throw new InvalidOperationException("the step does not inherit the DialogStep");
+
+            step.Init(this);
+            _previosStepType = _nextStepType;
+            _nextStepType = null;
+            await step.InvokeAsync(new DialogStepParameters()
             {
                 BotClient = parameters.BotClient,
                 Update = parameters.Update,
                 DialogContext = DialogContext,
-                Next = NextStep,
             });
-            _currentStepIndex++;
         }
 
-        public abstract List<IDialogStep> SetSteps();
+        public void SetNextStep(Type type)
+        {
+            if (type.BaseType != typeof(DialogStep))
+                throw new ArgumentException(nameof(type));
+
+            _nextStepType = type;
+        }
+
         public abstract Task StepsEndedCallback(DialogParameters parameters);
     }
 }

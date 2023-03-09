@@ -4,13 +4,14 @@ using Telegram.Bot;
 
 namespace DirectoryOfTeachers.Bot.Dialogs.DialogSteps.SimpleDialog
 {
-    public class WriteNameDialogStep : IDialogStep
+    public class WriteNameDialogStep : DialogStep
     {
-        public async Task<IDialogStep?> InvokeAsync(DialogStepParameters parameter)
+        public override async Task InvokeAsync(DialogStepParameters parameter)
         {
             var chatId = parameter.ChatId;
             await parameter.BotClient.SendTextMessageAsync(chatId, "Яке ваше імя?");
-            return await Task.Run(() => parameter.Next);
+
+            NextStep<AgeDialogStep>();
         }
     }
 }

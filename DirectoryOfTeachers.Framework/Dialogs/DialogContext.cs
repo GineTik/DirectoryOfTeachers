@@ -11,5 +11,11 @@ namespace DirectoryOfTeachers.Framework.Dialogs
         {
             Messages = new Dictionary<string, Message>();
         }
+
+        public Message? TryGetMessage(string key)
+        {
+            Messages.TryGetValue(key, out var message);
+            return message;
+        }
     }
 }

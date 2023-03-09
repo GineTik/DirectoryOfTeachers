@@ -1,5 +1,6 @@
 ﻿using DirectoryOfTeachers.Framework.Dialogs;
 using DirectoryOfTeachers.Framework.Handlers;
+using DirectoryOfTeachers.Framework.Helpers;
 using Microsoft.Extensions.DependencyInjection;
 
 namespace DirectoryOfTeachers.Framework.Configures.ServicesExtensions
@@ -10,6 +11,12 @@ namespace DirectoryOfTeachers.Framework.Configures.ServicesExtensions
         {
             services.AddSingleton<IHandler, DialogHandler>();
             services.AddSingleton<DialogStack>();
+
+            foreach (var type in DialogHelper.GetDialogsTypes())
+                services.AddTransient(type);
+
+            foreach (var type in DialogHelper.GetDialogsStepsTypes())
+                services.AddTransient(type);
         }
     }
 }

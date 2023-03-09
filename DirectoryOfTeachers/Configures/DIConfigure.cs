@@ -1,6 +1,7 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Implementations;
 using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
 using DirectoryOfTeacher.DataAccess.EF;
+using DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations;
 using DirectoryOfTeachers.Framework.Configures;
 using DirectoryOfTeachers.Framework.Configures.ServicesExtensions;
 using Microsoft.EntityFrameworkCore;

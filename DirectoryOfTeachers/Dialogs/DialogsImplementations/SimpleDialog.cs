@@ -7,19 +7,15 @@ namespace DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations
 {
     public class SimpleDialog : Dialog
     {
-        public override List<IDialogStep> SetSteps()
+        public SimpleDialog()
         {
-            return new List<IDialogStep>()
-            {
-                new WriteNameDialogStep(),
-                new AgeDialogStep()
-            };
+            SetNextStep(typeof(WriteNameDialogStep));
         }
 
         public override async Task StepsEndedCallback(DialogParameters parameters)
         {
-            var name = DialogContext.Messages[typeof(WriteNameDialogStep).FullName].Text;
-            var age = DialogContext.Messages[typeof(AgeDialogStep).FullName].Text;
+            var name = DialogContext.TryGetMessage(typeof(WriteNameDialogStep).Name)?.Text;
+            var age = DialogContext.TryGetMessage(typeof(AgeDialogStep).Name)?.Text;
 
             await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, $"Вас звати {name}, вам {age} років!");
             await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, "Дякую за успішне завершення діалогу");

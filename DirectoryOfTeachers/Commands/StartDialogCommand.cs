@@ -2,6 +2,7 @@
 using DirectoryOfTeachers.Framework.Commands;
 using DirectoryOfTeachers.Framework.Parameters;
 using DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations;
+using DirectoryOfTeachers.Framework.Dialogs.Extensions;
 
 namespace DirectoryOfTeachers.Bot.Commands
 {
@@ -10,7 +11,7 @@ namespace DirectoryOfTeachers.Bot.Commands
     {
         public override async Task InvokeAsync(CommandParameters parameters)
         {
-            await StartDialogAsync(new SimpleDialog(), parameters);
+            await DialogStack.StartDialogAsync<SimpleDialog>(parameters);
         }
     }
 }

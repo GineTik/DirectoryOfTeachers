@@ -10,7 +10,7 @@ namespace DirectoryOfTeachers.Framework.Helpers
     {
         public static List<CommandAttribute> GetAllCommandAttributes()
         {
-            IEnumerable<Type> allTypes = GetTypes();
+            IEnumerable<Type> allTypes = TypeHelper.GetTypes();
 
             var commandAttributes = new List<CommandAttribute>();
 
@@ -22,14 +22,14 @@ namespace DirectoryOfTeachers.Framework.Helpers
 
         public static IEnumerable<Type> GetCommandTypes()
         {
-            IEnumerable<Type> types = GetTypes(type => type.GetCustomAttributes<CommandAttribute>().Count() != 0);
+            IEnumerable<Type> types = TypeHelper.GetTypes(type => type.GetCustomAttributes<CommandAttribute>().Count() != 0);
 
             return types;
         }
 
         public static Type? GetCommandType(string command)
         {
-            IEnumerable<Type> handlerTypes = GetTypes(
+            IEnumerable<Type> handlerTypes = TypeHelper.GetTypes(
                 type => type.GetCustomAttributes<CommandAttribute>()
                    .Any(attr => attr.Command == command));
 
@@ -51,15 +51,6 @@ namespace DirectoryOfTeachers.Framework.Helpers
                 c.GetType()
                 .GetCustomAttributes<CommandAttribute>()
                 .Any(attr => attr.Command == commandString));
-        }
-
-        private static IEnumerable<Type> GetTypes(Predicate<Type>? predicate = null)
-        {
-            if (predicate == null)
-                return Assembly.GetEntryAssembly()?.GetTypes() ?? new Type[0];
-
-            return Assembly.GetEntryAssembly()?.GetTypes()
-               .Where(t => predicate(t)) ?? new Type[0];
         }
     }
 }

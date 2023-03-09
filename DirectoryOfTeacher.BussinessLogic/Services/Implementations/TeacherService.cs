@@ -1,24 +1,42 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
+using DirectoryOfTeacher.DataAccess.EF;
 using DirectoryOfTeachers.Core.DTOs.Teacher;
 using DirectoryOfTeachers.Core.Models;
+using Microsoft.EntityFrameworkCore;
 
 namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
 {
     public class TeacherService : ITeacherService
     {
-        public void AddTeacher(AddTeacherDTO dto)
+        private readonly DataContext _context;
+
+        public TeacherService(DataContext context)
         {
-            throw new NotImplementedException();
+            _context = context;
         }
 
-        public IEnumerable<Teacher> GetTeachersByEducationalInstitution(string educationalInstitution)
+        public async Task<bool> AddTeacherAsync(AddTeacherDTO dto)
         {
-            throw new NotImplementedException();
+            var teacher = new Teacher()
+            {
+                Name = dto.Name,
+                EducationalInstitution = dto.EducationalInstitution,
+            };
+            var result = _context.Teachers.Add(teacher).State == EntityState.Added;
+            await _context.SaveChangesAsync(); 
+            return result;
         }
 
-        public IEnumerable<Teacher> GetTeachersByName(string name)
+        public async Task<IEnumerable<Teacher>> GetTeachersByContainsEducationalInstitutionAsync(string educationalInstitution)
         {
-            throw new NotImplementedException();
+            return await Task.Run(() => 
+                _context.Teachers.Where(t => t.EducationalInstitution.Contains(educationalInstitution)));
+        }
+
+        public async Task<IEnumerable<Teacher>> GetTeachersByContainsNameAsync(string name)
+        {
+            return await Task.Run(() => 
+                _context.Teachers.Where(t => t.Name.Contains(name)));
         }
     }
 }

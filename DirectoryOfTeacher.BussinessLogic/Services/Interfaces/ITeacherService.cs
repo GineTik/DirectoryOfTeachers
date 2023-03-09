@@ -5,8 +5,8 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Interfaces
 {
     public interface ITeacherService
     {
-        IEnumerable<Teacher> GetTeachersByName(string name);
-        IEnumerable<Teacher> GetTeachersByEducationalInstitution(string educationalInstitution);
-        void AddTeacher(AddTeacherDTO dto);
+        Task<IEnumerable<Teacher>> GetTeachersByContainsNameAsync(string name);
+        Task<IEnumerable<Teacher>> GetTeachersByContainsEducationalInstitutionAsync(string educationalInstitution);
+        Task<bool> AddTeacherAsync(AddTeacherDTO dto);
     }
 }
