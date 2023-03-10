@@ -1,4 +1,6 @@
-﻿using DirectoryOfTeachers.Framework.Parameters;
+﻿using DirectoryOfTeachers.Framework.Factories.Interfaces;
+using DirectoryOfTeachers.Framework.Parameters;
+using Microsoft.Extensions.DependencyInjection;
 
 namespace DirectoryOfTeachers.Framework.Dialogs
 {
@@ -12,6 +14,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs
         private Type? _nextStepType;
         private Type? _previosStepType;
         private IServiceProvider _provider;
+        private IDialogStepFactory _stepFactory;
 
         public void Init(IServiceProvider provider)
         {
@@ -20,12 +23,24 @@ namespace DirectoryOfTeachers.Framework.Dialogs
 
             DialogContext = new DialogContext();
             _provider = provider;
+            _stepFactory = _provider.GetRequiredService<IDialogStepFactory>();
         }
 
         public async Task InvokeCurrentStepAsync(DialogParameters parameters)
         {
+            var stepParameters = new DialogStepParameters()
+            {
+                BotClient = parameters.BotClient,
+                Update = parameters.Update,
+                DialogContext = DialogContext,
+            };
+
             if (_previosStepType != null)
+            {
                 DialogContext.Messages.Add(_previosStepType.Name, parameters.Message);
+                var previosStep = _stepFactory.Create(_previosStepType, this);
+                await previosStep.TakeResultAsync(stepParameters);
+            }
 
             if (StepsEnded == true)
             {
@@ -34,20 +49,12 @@ namespace DirectoryOfTeachers.Framework.Dialogs
                 return;
             }
 
-            var step = _provider.GetService(_nextStepType) as DialogStep;
+            var step = _stepFactory.Create(_nextStepType, this);
 
-            if (step == null)
-                throw new InvalidOperationException("the step does not inherit the DialogStep");
-
-            step.Init(this);
             _previosStepType = _nextStepType;
             _nextStepType = null;
-            await step.InvokeAsync(new DialogStepParameters()
-            {
-                BotClient = parameters.BotClient,
-                Update = parameters.Update,
-                DialogContext = DialogContext,
-            });
+
+            await step.InvokeAsync(stepParameters);
         }
 
         public void SetNextStep(Type type)

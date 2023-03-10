@@ -6,7 +6,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs
     {
         public Dialog Dialog { get; set; }
 
-        public abstract Task InvokeAsync(DialogStepParameters parameter);
+        public abstract Task InvokeAsync(DialogStepParameters parameters);
 
         public void Init(Dialog dialog)
         {
@@ -15,6 +15,8 @@ namespace DirectoryOfTeachers.Framework.Dialogs
 
             Dialog = dialog;
         }
+
+        public virtual async Task TakeResultAsync(DialogStepParameters parameters) { }
 
         protected void NextStep<T>()
             where T : DialogStep
