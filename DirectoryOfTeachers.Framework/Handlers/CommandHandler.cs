@@ -38,10 +38,15 @@ namespace DirectoryOfTeachers.Framework.Handlers
             if (command != null)
             {
                 command.Init(_dialogStack, update);
+
+                var queryParameters = message.Text.Split(' ').ToList();
+                queryParameters.RemoveAt(0);
+
                 await command.InvokeAsync(new CommandParameters 
                 { 
                     BotClient = botClient,
                     Update = update,
+                    QueryParameters = queryParameters
                 });
             }
         }
