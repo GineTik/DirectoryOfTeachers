@@ -24,6 +24,7 @@ namespace DirectoryOfTeachers.Framework.Factories.Implementations
             if (step == null)
                 throw new InvalidOperationException("step is not registred in services");
 
+            step?.Init(owner);
             return step;
         }
     }

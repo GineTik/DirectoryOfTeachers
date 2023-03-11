@@ -43,7 +43,7 @@ namespace DirectoryOfTeachers.Bot
         {
             await Task.Run(() =>
             {
-                Console.WriteLine($"Error: {exception.Message}");
+                Console.WriteLine($"Error: {exception.Message}, \nHelpLink: {exception.HelpLink}, \nSource: {exception.Source}, \nStackTrace: {exception.StackTrace}");
             });
         }
     }

@@ -2,6 +2,7 @@
 using DirectoryOfTeachers.Framework.Parameters;
 using DirectoryOfTeachers.Framework.Dialogs;
 using Telegram.Bot;
+using DirectoryOfTeachers.Core.DTOs.Teacher;
 
 namespace DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations
 {
