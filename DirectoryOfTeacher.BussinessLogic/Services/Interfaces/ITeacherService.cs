@@ -1,12 +1,13 @@
 ﻿using DirectoryOfTeachers.Core.DTOs.Teacher;
-using DirectoryOfTeachers.Core.Models;
 
 namespace DirectoryOfTeacher.BussinessLogic.Services.Interfaces
 {
     public interface ITeacherService
     {
-        Task<IEnumerable<Teacher>> GetTeachersByContainsNameAsync(string name);
-        Task<IEnumerable<Teacher>> GetTeachersByContainsEducationalInstitutionAsync(string educationalInstitution);
+        Task<IEnumerable<TeacherShortDTO>> GetTeachersByContainsNameAsync(string name);
+        Task<IEnumerable<TeacherShortDTO>> GetTeachersByContainsEducationalInstitutionAsync(string educationalInstitution);
+        Task<TeacherFullDTO> GetTeacher(TeacherShortDTO dto);
         Task<bool> AddTeacherAsync(AddTeacherDTO dto);
+        Task<bool> RemoveTeacherAsync(TeacherShortDTO dto);
     }
 }

@@ -12,5 +12,10 @@ namespace DirectoryOfTeachers.Framework.Helpers
             return Assembly.GetEntryAssembly()?.GetTypes()
                .Where(t => predicate(t)) ?? new Type[0];
         }
+
+        public static Type? GetTypeByClassName(string className)
+        {
+            return GetTypes(t => t.Name == className).FirstOrDefault();
+        }
     }
 }

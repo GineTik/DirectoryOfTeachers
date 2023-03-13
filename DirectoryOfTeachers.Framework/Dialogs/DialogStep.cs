@@ -5,6 +5,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs
     public abstract class DialogStep
     {
         public Dialog Dialog { get; set; }
+        public DialogContext? DialogContext => Dialog?.DialogContext;
 
         public abstract Task InvokeAsync(DialogStepParameters parameters);
 

@@ -1,8 +1,12 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
+using DirectoryOfTeachers.Bot.Buttons;
 using DirectoryOfTeachers.Framework.Attributes;
+using DirectoryOfTeachers.Framework.Buttons;
 using DirectoryOfTeachers.Framework.Commands;
+using DirectoryOfTeachers.Framework.Factories.Interfaces;
 using DirectoryOfTeachers.Framework.Parameters;
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace DirectoryOfTeachers.Bot.Commands
 {
@@ -10,10 +14,12 @@ namespace DirectoryOfTeachers.Bot.Commands
     public class GetTeachersByNameCommand : Command
     {
         private readonly ITeacherService _service;
+        private readonly IButtonFactory _buttonFactory;
 
-        public GetTeachersByNameCommand(ITeacherService service)
+        public GetTeachersByNameCommand(ITeacherService service, IButtonFactory buttonFactory)
         {
             _service = service;
+            _buttonFactory = buttonFactory;
         }
 
         public override async Task InvokeAsync(CommandParameters parameters)
@@ -29,11 +35,16 @@ namespace DirectoryOfTeachers.Bot.Commands
 
             var teachers = await _service.GetTeachersByContainsNameAsync(name);
 
-            var result = "Нічого не знайдено";
-            if (teachers.Count() != 0)
-                result = String.Join("\n", teachers.Select(t => t.Name + " " + t.EducationalInstitution));
+            string result = teachers.Count() == 0 ? "Нічого не знайдено" : "Ось що вдалось знайти";
 
-            await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, result);
+            List<Button[]> buttons = new List<Button[]>();
+
+            foreach (var teacher in teachers)
+                buttons.Add(new[] {
+                    _buttonFactory.CreateButton<DisplayFullTeacherButton>($"{teacher.Name} {teacher.EducationalInstitution}", teacher) });
+
+            var keyboard = new InlineKeyboardMarkup(buttons); 
+            await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, result, replyMarkup: keyboard);
         }
     }
 }

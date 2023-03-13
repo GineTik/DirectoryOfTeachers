@@ -7,7 +7,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs
         public Dictionary<string, Message> Messages { get; }
         public Message LastMessage => Messages.LastOrDefault().Value;
 
-        private object _model;
+        private Dictionary<string, object> _models;
 
         public DialogContext()
         {
@@ -23,15 +23,27 @@ namespace DirectoryOfTeachers.Framework.Dialogs
         public TModel GetModel<TModel>()
             where TModel : class, new()
         {
-            if (_model == null)
-                _model = new TModel();
-
-            var model = _model as TModel;
+            object model;
+            _models.TryGetValue(nameof(TModel), out model);
 
             if (model == null)
-                throw new InvalidCastException("failed cast to " + nameof(TModel));
+                throw new InvalidCastException($"this model({nameof(TModel)}) not exists");
 
-            return model;
+            return (TModel)model;
+        }
+
+        public void AddModel<TModel>()
+            where TModel : new()
+        {
+            AddModel(new TModel());
+        }
+
+        public void AddModel<TModel>(TModel model)
+        {
+            if (model == null)
+                throw new ArgumentNullException(nameof(model));
+
+            _models.Add(nameof(TModel), model);
         }
     }
 }

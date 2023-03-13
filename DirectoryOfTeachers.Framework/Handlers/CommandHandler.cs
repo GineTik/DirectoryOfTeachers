@@ -39,8 +39,7 @@ namespace DirectoryOfTeachers.Framework.Handlers
             {
                 command.Init(_dialogStack, update);
 
-                var queryParameters = message.Text.Split(' ').ToList();
-                queryParameters.RemoveAt(0);
+                var queryParameters = GetQueryParameters(message);
 
                 await command.InvokeAsync(new CommandParameters 
                 { 
@@ -49,6 +48,13 @@ namespace DirectoryOfTeachers.Framework.Handlers
                     QueryParameters = queryParameters
                 });
             }
+        }
+
+        private List<string> GetQueryParameters(Message message)
+        {
+            var queryParameters = message.Text.Split(' ').ToList();
+            queryParameters.RemoveAt(0);
+            return queryParameters;
         }
     }
 }

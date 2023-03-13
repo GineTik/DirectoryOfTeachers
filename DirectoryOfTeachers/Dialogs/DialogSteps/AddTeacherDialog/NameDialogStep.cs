@@ -15,7 +15,7 @@ namespace DirectoryOfTeachers.Bot.Dialogs.DialogSteps.AddTeacherDialog
 
         public override async Task TakeResultAsync(DialogStepParameters parameters)
         {
-            var model = parameters.DialogContext.GetModel<AddTeacherDTO>();
+            var model = DialogContext.GetModel<AddTeacherDTO>();
             model.Name = parameters.Message.Text;
         }
     }

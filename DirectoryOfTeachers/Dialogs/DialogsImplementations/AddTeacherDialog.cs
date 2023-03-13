@@ -15,6 +15,7 @@ namespace DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations
         {
             SetNextStep(typeof(NameDialogStep));
             _service = service;
+            DialogContext.AddModel<AddTeacherDTO>();
         }
 
         public override async Task StepsEndedCallback(DialogParameters parameters)

@@ -7,8 +7,9 @@ namespace DirectoryOfTeachers.Framework.Dialogs
     public abstract class Dialog
     {
         public Action<long> StepsEndedAction;
-        public DialogContext DialogContext { get; private set; }
-        
+        public DialogContext DialogContext { get; } = new DialogContext();
+
+
         public bool StepsEnded => _nextStepType == null;
 
         private Type? _nextStepType;
@@ -21,7 +22,6 @@ namespace DirectoryOfTeachers.Framework.Dialogs
             if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
 
-            DialogContext = new DialogContext();
             _provider = provider;
             _stepFactory = _provider.GetRequiredService<IDialogStepFactory>();
         }

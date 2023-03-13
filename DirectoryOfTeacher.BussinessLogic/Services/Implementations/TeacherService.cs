@@ -27,16 +27,51 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
             return result;
         }
 
-        public async Task<IEnumerable<Teacher>> GetTeachersByContainsEducationalInstitutionAsync(string educationalInstitution)
+        public async Task<TeacherFullDTO> GetTeacher(TeacherShortDTO dto)
         {
-            return await Task.Run(() => 
-                _context.Teachers.Where(t => t.EducationalInstitution.Contains(educationalInstitution)));
+            return await Task.Run(() =>
+            {
+                var teacher = _context.Teachers
+                    .Include(t => t.Characteristics)
+                    .FirstOrDefault(t => t.Name == dto.Name && t.EducationalInstitution == dto.EducationalInstitution);
+
+                return new TeacherFullDTO
+                {
+                    Name = teacher.Name,
+                    EducationalInstitution = teacher.EducationalInstitution,
+                    Characteristics = teacher.Characteristics
+                };
+            });
         }
 
-        public async Task<IEnumerable<Teacher>> GetTeachersByContainsNameAsync(string name)
+        public async Task<IEnumerable<TeacherShortDTO>> GetTeachersByContainsEducationalInstitutionAsync(string educationalInstitution)
         {
-            return await Task.Run(() => 
-                _context.Teachers.Where(t => t.Name.Contains(name)));
+            var teachers = _context.Teachers
+                .Where(t => t.EducationalInstitution.Contains(educationalInstitution));
+
+            return await Task.Run(() =>
+                teachers.Select(t => new TeacherShortDTO { Name = t.Name, EducationalInstitution = t.EducationalInstitution } ));
+        }
+
+        public async Task<IEnumerable<TeacherShortDTO>> GetTeachersByContainsNameAsync(string name)
+        {
+            var teachers = _context.Teachers
+                .Where(t => t.Name.Contains(name));
+
+            return await Task.Run(() =>
+                teachers.Select(t => new TeacherShortDTO { Name = t.Name, EducationalInstitution = t.EducationalInstitution }));
+        }
+
+        public async Task<bool> RemoveTeacherAsync(TeacherShortDTO dto)
+        {
+            var teacher = new Teacher()
+            {
+                Name = dto.Name,
+                EducationalInstitution = dto.EducationalInstitution,
+            };
+            var result = _context.Teachers.Remove(teacher).State == EntityState.Deleted;
+            await _context.SaveChangesAsync();
+            return result;
         }
     }
 }

@@ -7,7 +7,7 @@ namespace DirectoryOfTeachers.Framework.Parameters
     {
         public ITelegramBotClient BotClient { get; set; }
         public Update Update { get; set; }
-        public long ChatId => Update.Message.Chat.Id;
-        public Message Message => Update.Message;
+        public long ChatId => Update.Message?.Chat?.Id ?? -1;
+        public Message? Message => Update.Message;
     }
 }
