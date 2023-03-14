@@ -23,7 +23,7 @@ namespace DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations
             var dto = DialogContext.GetModel<AddTeacherDTO>();
 
             bool result = await _service.AddTeacherAsync(dto);
-            await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, $@"Вчителя {(result ? "додано" : "не додано (сталась якась помилка)")}");
+            await parameters.SendTextAnswerAsync($@"Вчителя {(result ? "додано" : "не додано (сталась якась помилка)")}");
         }
     }
 }

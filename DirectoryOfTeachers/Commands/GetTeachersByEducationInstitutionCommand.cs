@@ -1,4 +1,6 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
+using DirectoryOfTeachers.Bot.Presenters;
+using DirectoryOfTeachers.Core.DTOs.Teacher;
 using DirectoryOfTeachers.Framework.Attributes;
 using DirectoryOfTeachers.Framework.Commands;
 using DirectoryOfTeachers.Framework.Parameters;
@@ -7,32 +9,25 @@ using Telegram.Bot;
 namespace DirectoryOfTeachers.Bot.Commands
 {
     [Command("/get_teachers_by_education_institution")]
+    [RequiredParametersAttribute(1, Message = "Ви забули уточнити навчильний заклад :)")]
     public class GetTeachersByEducationInstitutionCommand : Command
     {
         private readonly ITeacherService _service;
+        private readonly IPresenter<IEnumerable<TeacherShortDTO>> _presenter;
 
-        public GetTeachersByEducationInstitutionCommand(ITeacherService service)
+        public GetTeachersByEducationInstitutionCommand(ITeacherService service, IPresenter<IEnumerable<TeacherShortDTO>> presenter)
         {
             _service = service;
+            _presenter = presenter;
         }
 
         public override async Task InvokeAsync(CommandParameters parameters)
         {
-            if (parameters.QueryParameters.Count == 0)
-            {
-                await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, "Ви забули уточнити навчильний заклад :)");
-                return;
-            }
-
             var ei = parameters.QueryParameters[0];
+            await parameters.SendTextAnswerAsync("Шукаю: " + ei);
 
             var teachers = await _service.GetTeachersByContainsEducationalInstitutionAsync(ei);
-
-            var result = "Нічого не знайдено";
-            if (teachers.Count() != 0)
-                result = String.Join("\n", teachers.Select(t => t.Name + " " + t.EducationalInstitution));
-
-            await parameters.BotClient.SendTextMessageAsync(parameters.ChatId, result);
+            await _presenter.PresentAsync(parameters.ChatId, parameters.BotClient, teachers);
         }
     }
 }

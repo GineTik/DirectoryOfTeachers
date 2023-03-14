@@ -1,6 +1,8 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Implementations;
 using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
 using DirectoryOfTeacher.DataAccess.EF;
+using DirectoryOfTeachers.Bot.Presenters;
+using DirectoryOfTeachers.Core.DTOs.Teacher;
 using DirectoryOfTeachers.Framework.Configures;
 using DirectoryOfTeachers.Framework.Configures.ServicesExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -21,6 +23,8 @@ namespace DirectoryOfTeachers.Bot.Configures
                 options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
             
             services.AddTransient<ITeacherService, TeacherService>();
+
+            services.AddTransient<IPresenter<IEnumerable<TeacherShortDTO>>, TeachersShortPresenter>();
         }
     }
 }

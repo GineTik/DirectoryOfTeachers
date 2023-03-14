@@ -15,8 +15,7 @@ namespace DirectoryOfTeachers.Bot.Commands
             var commandAttributes = CommandHelper.GetAllCommandAttributes();
             var resultMessage = string.Join("\n", commandAttributes.Select(x => x.Command + " - " + x.Description));
 
-            var chatId = parameters.ChatId;
-            await parameters.BotClient.SendTextMessageAsync(chatId, "Ось усі комманди які має бот: \n\n" + resultMessage);
+            await parameters.SendTextAnswerAsync("Ось усі комманди які має бот: \n\n" + resultMessage);
             await Task.Delay(10000);
         }
     }

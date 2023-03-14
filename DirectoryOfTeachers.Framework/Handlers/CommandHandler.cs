@@ -1,7 +1,9 @@
-﻿using DirectoryOfTeachers.Framework.Commands;
+﻿using DirectoryOfTeachers.Framework.Attributes;
+using DirectoryOfTeachers.Framework.Commands;
 using DirectoryOfTeachers.Framework.Dialogs;
 using DirectoryOfTeachers.Framework.Helpers;
 using DirectoryOfTeachers.Framework.Parameters;
+using System.Reflection;
 using Telegram.Bot;
 using Telegram.Bot.Types;
 using Telegram.Bot.Types.Enums;
@@ -35,26 +37,38 @@ namespace DirectoryOfTeachers.Framework.Handlers
 
             Command? command = CommandHelper.GetCommand(commandString, _serviceProvider);
 
-            if (command != null)
-            {
-                command.Init(_dialogStack, update);
+            if (command == null)
+                return;
 
-                var queryParameters = GetQueryParameters(message);
-
-                await command.InvokeAsync(new CommandParameters 
-                { 
-                    BotClient = botClient,
-                    Update = update,
-                    QueryParameters = queryParameters
-                });
-            }
+            await TryInvokeCommand(botClient, update, command);
         }
 
-        private List<string> GetQueryParameters(Message message)
+        private List<string> GetQueryParameters(string message)
         {
-            var queryParameters = message.Text.Split(' ').ToList();
+            var queryParameters = message.Split(' ').ToList();
             queryParameters.RemoveAt(0);
             return queryParameters;
+        }
+
+        private async Task TryInvokeCommand(ITelegramBotClient botClient, Update update, Command command)
+        {
+            var attributes = command.GetType().GetCustomAttributes<CanInvokeCommandAttribute>();
+
+            foreach (var attribute in attributes)
+            {
+                if (attribute.CanInvoke(update) == false)
+                {
+                    await botClient.SendTextMessageAsync(update.Message.Chat.Id, attribute.Message);
+                    return;
+                }
+            }
+
+            await command.InvokeAsync(new CommandParameters
+            {
+                BotClient = botClient,
+                Update = update,
+                QueryParameters = GetQueryParameters(update.Message.Text)
+            });
         }
     }
 }

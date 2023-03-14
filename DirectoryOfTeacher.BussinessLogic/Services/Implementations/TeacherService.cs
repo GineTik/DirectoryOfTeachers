@@ -27,6 +27,19 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
             return result;
         }
 
+        public async Task<IEnumerable<TeacherShortDTO>> GetSimilarTeachersAsync(TeacherShortDTO dto)
+        {
+            return await Task.Run(() =>
+            {
+                var teachers = _context.Teachers
+                .Where(t => 
+                    t.Name.Contains(dto.Name) &&
+                    t.EducationalInstitution.Contains(dto.EducationalInstitution));
+
+                return teachers.Select(t => new TeacherShortDTO { Name = t.Name, EducationalInstitution = t.EducationalInstitution });
+            });
+        }
+
         public async Task<TeacherFullDTO> GetTeacher(TeacherShortDTO dto)
         {
             return await Task.Run(() =>

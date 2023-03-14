@@ -11,7 +11,20 @@ namespace DirectoryOfTeachers.Framework.Dialogs
 
         public DialogContext()
         {
-            Messages = new Dictionary<string, Message>();
+            Messages = new();
+            _models = new();
+        }
+
+        public Message GetMessage<TDialogStep>()
+            where TDialogStep : DialogStep
+        {
+            return Messages[typeof(TDialogStep).Name];
+        }
+
+        public Message? TryGetMessage<TDialogStep>()
+            where TDialogStep : DialogStep
+        {
+            return TryGetMessage(typeof(TDialogStep).Name);
         }
 
         public Message? TryGetMessage(string key)
