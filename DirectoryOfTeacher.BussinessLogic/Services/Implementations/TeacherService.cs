@@ -1,6 +1,7 @@
 ﻿using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
 using DirectoryOfTeacher.DataAccess.EF;
 using DirectoryOfTeachers.Core.DTOs.Teacher;
+using DirectoryOfTeachers.Core.DTOs.TeacherCharacteristics;
 using DirectoryOfTeachers.Core.Models;
 using Microsoft.EntityFrameworkCore;
 
@@ -40,7 +41,7 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
             });
         }
 
-        public async Task<TeacherFullDTO> GetTeacher(TeacherShortDTO dto)
+        public async Task<TeacherFullDTO?> GetTeacherAsync(TeacherShortDTO dto)
         {
             return await Task.Run(() =>
             {
@@ -48,11 +49,21 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
                     .Include(t => t.Characteristics)
                     .FirstOrDefault(t => t.Name == dto.Name && t.EducationalInstitution == dto.EducationalInstitution);
 
+                if (teacher == null)
+                    return null;
+
+                var characteristicsInfo = teacher.Characteristics.Select(c => new TeacherCharacteristicInfoDTO
+                {
+                    Name = c.Name,
+                    LikeCount = c.Likes?.Count ?? 0
+                });
+
                 return new TeacherFullDTO
                 {
+                    Id = teacher.Id,
                     Name = teacher.Name,
                     EducationalInstitution = teacher.EducationalInstitution,
-                    Characteristics = teacher.Characteristics
+                    Characteristics = characteristicsInfo
                 };
             });
         }

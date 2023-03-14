@@ -2,7 +2,6 @@
 using DirectoryOfTeachers.Framework.Attributes;
 using DirectoryOfTeachers.Framework.Commands;
 using DirectoryOfTeachers.Framework.Dialogs;
-using DirectoryOfTeachers.Framework.Dialogs.Extensions;
 using DirectoryOfTeachers.Framework.Parameters;
 
 namespace DirectoryOfTeachers.Bot.Commands
@@ -19,7 +18,7 @@ namespace DirectoryOfTeachers.Bot.Commands
 
         public override async Task InvokeAsync(CommandParameters parameters)
         {
-            await _stack.StartDialogAsync<FindTeacherDialog>(parameters);
+            await _stack.StartDialogAsync<FindTeacherDialog, CommandParameters>(parameters);
         }
     }
 }

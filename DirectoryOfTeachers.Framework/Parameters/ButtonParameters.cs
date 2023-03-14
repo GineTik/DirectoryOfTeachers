@@ -2,6 +2,6 @@
 {
     public class ButtonParameters : BaseParameters
     {
-        public new long ChatId => Update.CallbackQuery?.Message?.Chat?.Id ?? -1;
+        //public new long ChatId => Update.CallbackQuery?.Message?.Chat?.Id ?? -1;
     }
 }

@@ -19,7 +19,7 @@ namespace DirectoryOfTeachers.Bot.Commands
 
         public override async Task InvokeAsync(CommandParameters parameters)
         {
-            await _stack.StartDialogAsync<SimpleDialog>(parameters);
+            await _stack.StartDialogAsync<SimpleDialog, CommandParameters>(parameters);
         }
     }
 }

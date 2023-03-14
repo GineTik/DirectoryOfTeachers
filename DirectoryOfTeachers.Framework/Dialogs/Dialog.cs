@@ -8,6 +8,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs
     {
         public Action<long> StepsEndedAction;
         public DialogContext DialogContext { get; } = new DialogContext();
+        public object? Data { get; set; }
 
 
         public bool StepsEnded => _nextStepType == null;
@@ -17,13 +18,14 @@ namespace DirectoryOfTeachers.Framework.Dialogs
         private IServiceProvider _provider;
         private IDialogStepFactory _stepFactory;
 
-        public void Init(IServiceProvider provider)
+        public void Init(IServiceProvider provider, object? data = null)
         {
             if (provider == null)
                 throw new ArgumentNullException(nameof(provider));
 
             _provider = provider;
             _stepFactory = _provider.GetRequiredService<IDialogStepFactory>();
+            Data = data;
         }
 
         public async Task InvokeCurrentStepAsync(DialogParameters parameters)

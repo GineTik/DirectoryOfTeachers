@@ -23,8 +23,10 @@ namespace DirectoryOfTeachers.Bot.Configures
                 options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
             
             services.AddTransient<ITeacherService, TeacherService>();
+            services.AddTransient<ITeacherCharacteristicService, TeacherCharacteristicService>();
 
             services.AddTransient<IPresenter<IEnumerable<TeacherShortDTO>>, TeachersShortPresenter>();
+            services.AddTransient<IPresenter<TeacherFullDTO>, TeacherFullPresentation>();
         }
     }
 }

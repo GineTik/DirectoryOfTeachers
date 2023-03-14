@@ -14,13 +14,18 @@ namespace DirectoryOfTeachers.Framework.Dialogs
             _provider = provider;
         }
 
-        public async Task StartDialogAsync<TDialog>(DialogParameters parameters)
+        public async Task StartDialogAsync<TDialog, TParameter>(TParameter parameters, object? data = null)
             where TDialog : Dialog
+            where TParameter : BaseParameters
         {
-            await StartDialogAsync(typeof(TDialog), parameters);
+            await StartDialogAsync(typeof(TDialog), new DialogParameters
+            {
+                BotClient = parameters.BotClient,
+                Update = parameters.Update,
+            }, data);
         }
 
-        public async Task StartDialogAsync(Type DialogType, DialogParameters parameters)
+        public async Task StartDialogAsync(Type DialogType, DialogParameters parameters, object? data = null)
         {
             var chatId = parameters.ChatId;
 
@@ -32,7 +37,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs
             if (dialog == null)
                 throw new InvalidOperationException("dialog is null");
 
-            dialog.Init(_provider);
+            dialog.Init(_provider, data);
             Dialogs.Add(chatId, dialog);
             dialog.StepsEndedAction = DialogEnded;
             await dialog.InvokeCurrentStepAsync(parameters);

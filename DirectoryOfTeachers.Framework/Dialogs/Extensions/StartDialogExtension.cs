@@ -1,12 +1,12 @@
-﻿using DirectoryOfTeachers.Framework.Commands;
-using DirectoryOfTeachers.Framework.Parameters;
+﻿using DirectoryOfTeachers.Framework.Parameters;
 
 namespace DirectoryOfTeachers.Framework.Dialogs.Extensions
 {
     public static class StartDialogExtension
     {
-        public static async Task StartDialogAsync<TDialog>(this DialogStack stack, CommandParameters parameters)
+        public static async Task StartDialogAsync<TDialog, TParameter>(this DialogStack stack, TParameter parameters, object? data = null)
             where TDialog : Dialog
+            where TParameter : BaseParameters
         {
             if (stack == null)
                 throw new InvalidOperationException("DialogStack is null");
@@ -15,7 +15,7 @@ namespace DirectoryOfTeachers.Framework.Dialogs.Extensions
             {
                 BotClient = parameters.BotClient,
                 Update = parameters.Update,
-            });
+            }, data);
         }
     }
 }

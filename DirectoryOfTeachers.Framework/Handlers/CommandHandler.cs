@@ -13,12 +13,10 @@ namespace DirectoryOfTeachers.Framework.Handlers
     public class CommandHandler : IHandler
     {
         private readonly IServiceProvider _serviceProvider;
-        private readonly DialogStack _dialogStack;
 
-        public CommandHandler(IServiceProvider serviceProvider, DialogStack dialogStack)
+        public CommandHandler(IServiceProvider serviceProvider)
         {
             _serviceProvider = serviceProvider;
-            _dialogStack = dialogStack;
         }
 
         public bool CanHandle(Update update)
@@ -43,13 +41,6 @@ namespace DirectoryOfTeachers.Framework.Handlers
             await TryInvokeCommand(botClient, update, command);
         }
 
-        private List<string> GetQueryParameters(string message)
-        {
-            var queryParameters = message.Split(' ').ToList();
-            queryParameters.RemoveAt(0);
-            return queryParameters;
-        }
-
         private async Task TryInvokeCommand(ITelegramBotClient botClient, Update update, Command command)
         {
             var attributes = command.GetType().GetCustomAttributes<CanInvokeCommandAttribute>();
@@ -69,6 +60,13 @@ namespace DirectoryOfTeachers.Framework.Handlers
                 Update = update,
                 QueryParameters = GetQueryParameters(update.Message.Text)
             });
+        }
+
+        private List<string> GetQueryParameters(string message)
+        {
+            var queryParameters = message.Split(' ').ToList();
+            queryParameters.RemoveAt(0);
+            return queryParameters;
         }
     }
 }
