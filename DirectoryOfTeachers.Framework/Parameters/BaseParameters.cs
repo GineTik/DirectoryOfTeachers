@@ -1,5 +1,6 @@
 ﻿using Telegram.Bot.Types;
 using Telegram.Bot;
+using Telegram.Bot.Types.ReplyMarkups;
 
 namespace DirectoryOfTeachers.Framework.Parameters
 {
@@ -18,10 +19,10 @@ namespace DirectoryOfTeachers.Framework.Parameters
             Update.Message ?? 
             Update.CallbackQuery?.Message;
 
-        public async Task SendTextAnswerAsync(string text)
+        public async Task SendTextAnswerAsync(string text, IReplyMarkup? replyMarkup = null)
         {
             ArgumentNullException.ThrowIfNull(BotClient);
-            await BotClient.SendTextMessageAsync(ChatId, text);
+            await BotClient.SendTextMessageAsync(ChatId, text, replyMarkup: replyMarkup);
         }
     }
 }

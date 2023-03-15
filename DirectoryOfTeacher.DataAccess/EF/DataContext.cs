@@ -11,7 +11,18 @@ namespace DirectoryOfTeacher.DataAccess.EF
         public DbSet<TeacherCharacteristicLike> TeacherCharacteristicLikes { get; set; }
         public DbSet<TeacherCharacteristicDislike> TeacherCharacteristicDislikes { get; set; }
 
+        public DataContext()
+        { }
+
         public DataContext(DbContextOptions<DataContext> options) : base(options) 
         { }
+
+        protected override void OnConfiguring(DbContextOptionsBuilder builder)
+        {
+            if (builder.IsConfigured == false)
+            {
+                builder.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString);
+            }
+        }
     }
 }

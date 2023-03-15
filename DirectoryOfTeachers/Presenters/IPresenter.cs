@@ -1,14 +1,15 @@
-﻿using Telegram.Bot;
+﻿using DirectoryOfTeachers.Framework.Parameters;
+using Telegram.Bot;
 
 namespace DirectoryOfTeachers.Bot.Presenters
 {
     public interface IPresenter
     {
-        Task PresentAsync(long chatId, ITelegramBotClient bot);
+        Task PresentAsync(BaseParameters parameters, ITelegramBotClient bot);
     }
 
     public interface IPresenter<TModel>
     {
-        Task PresentAsync(long chatId, ITelegramBotClient bot, TModel model);
+        Task PresentAsync(BaseParameters parameters, TModel model);
     }
 }

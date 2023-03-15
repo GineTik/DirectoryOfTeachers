@@ -6,6 +6,5 @@
         public string Name { get; set; }
         public int TeacherId { get; set; }
         public List<TeacherCharacteristicLike> Likes { get; set; }
-        public List<TeacherCharacteristicDislike> Dislikes { get; set; }
     }
 }

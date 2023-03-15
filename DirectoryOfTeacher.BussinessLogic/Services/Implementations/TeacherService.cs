@@ -47,6 +47,7 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
             {
                 var teacher = _context.Teachers
                     .Include(t => t.Characteristics)
+                    .ThenInclude(c => c.Likes)
                     .FirstOrDefault(t => t.Name == dto.Name && t.EducationalInstitution == dto.EducationalInstitution);
 
                 if (teacher == null)
@@ -54,6 +55,7 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
 
                 var characteristicsInfo = teacher.Characteristics.Select(c => new TeacherCharacteristicInfoDTO
                 {
+                    Id = c.Id,
                     Name = c.Name,
                     LikeCount = c.Likes?.Count ?? 0
                 });

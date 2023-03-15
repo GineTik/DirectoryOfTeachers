@@ -30,7 +30,7 @@ namespace DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations
             await parameters.SendTextAnswerAsync($"Шукаю: Ім'я {dto.Name}, навчальний заклад {dto.EducationalInstitution}");
 
             var teachers = await _service.GetSimilarTeachersAsync(dto);
-            await _presenter.PresentAsync(parameters.ChatId, parameters.BotClient, teachers);
+            await _presenter.PresentAsync(parameters, teachers);
         }
     }
 }

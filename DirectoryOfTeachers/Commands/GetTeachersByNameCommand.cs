@@ -4,12 +4,11 @@ using DirectoryOfTeachers.Core.DTOs.Teacher;
 using DirectoryOfTeachers.Framework.Attributes;
 using DirectoryOfTeachers.Framework.Commands;
 using DirectoryOfTeachers.Framework.Parameters;
-using Telegram.Bot;
 
 namespace DirectoryOfTeachers.Bot.Commands
 {
     [Command("/get_teachers_by_name")]
-    [RequiredParametersAttribute(1, Message = "Ви забули уточнити ім'я :)")]
+    [RequiredParameters(1, Message = "Ви забули уточнити ім'я :)")]
     public class GetTeachersByNameCommand : Command
     {
         private readonly ITeacherService _service;
@@ -27,7 +26,7 @@ namespace DirectoryOfTeachers.Bot.Commands
             await parameters.SendTextAnswerAsync("Шукаю: " + name);
 
             var teachers = await _service.GetTeachersByContainsNameAsync(name);
-            await _presenter.PresentAsync(parameters.ChatId, parameters.BotClient, teachers);
+            await _presenter.PresentAsync(parameters, teachers);
         }
     }
 }

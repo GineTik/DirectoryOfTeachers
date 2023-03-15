@@ -3,6 +3,7 @@ using DirectoryOfTeacher.BussinessLogic.Services.Interfaces;
 using DirectoryOfTeacher.DataAccess.EF;
 using DirectoryOfTeachers.Bot.Presenters;
 using DirectoryOfTeachers.Core.DTOs.Teacher;
+using DirectoryOfTeachers.Core.DTOs.TeacherCharacteristics;
 using DirectoryOfTeachers.Framework.Configures;
 using DirectoryOfTeachers.Framework.Configures.ServicesExtensions;
 using Microsoft.EntityFrameworkCore;
@@ -28,6 +29,7 @@ namespace DirectoryOfTeachers.Bot.Configures
             services.AddTransient<ITeacherCharacteristicService, TeacherCharacteristicService>();
 
             services.AddTransient<IPresenter<IEnumerable<TeacherShortDTO>>, TeachersShortPresenter>();
+            services.AddTransient<IPresenter<IEnumerable<TeacherCharacteristicInfoDTO>>, CharacteristicsVotePresenters>();
             services.AddTransient<IPresenter<TeacherFullDTO>, TeacherFullPresentation>();
         }
     }

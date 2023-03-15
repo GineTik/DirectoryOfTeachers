@@ -27,7 +27,7 @@ namespace DirectoryOfTeachers.Bot.Buttons
             var teacherDTO = (TeacherShortDTO)Data;
             var teacher = await _service.GetTeacherAsync(teacherDTO);
 
-            await _presenter.PresentAsync(parameters.ChatId, parameters.BotClient, teacher);
+            await _presenter.PresentAsync(parameters, teacher);
         }
     }
 }

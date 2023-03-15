@@ -2,6 +2,7 @@
 using DirectoryOfTeachers.Core.DTOs.Teacher;
 using DirectoryOfTeachers.Framework.Buttons;
 using DirectoryOfTeachers.Framework.Factories.Interfaces;
+using DirectoryOfTeachers.Framework.Parameters;
 using Telegram.Bot;
 using Telegram.Bot.Types.ReplyMarkups;
 
@@ -16,7 +17,7 @@ namespace DirectoryOfTeachers.Bot.Presenters
             _buttonFactory = buttonFactory;
         }
 
-        public async Task PresentAsync(long chatId, ITelegramBotClient bot, IEnumerable<TeacherShortDTO> models)
+        public async Task PresentAsync(BaseParameters parameters, IEnumerable<TeacherShortDTO> models)
         {
             if (models == null)
                 throw new ArgumentNullException(nameof(models));
@@ -29,7 +30,7 @@ namespace DirectoryOfTeachers.Bot.Presenters
                     _buttonFactory.CreateButton<DisplayFullTeacherButton>($"{teacher.Name} {teacher.EducationalInstitution}", teacher) });
 
             var keyboard = new InlineKeyboardMarkup(buttons);
-            await bot.SendTextMessageAsync(chatId, result, replyMarkup: keyboard);
+            await parameters.SendTextAnswerAsync(result, replyMarkup: keyboard);
         }
     }
 }

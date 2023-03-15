@@ -27,7 +27,7 @@ namespace DirectoryOfTeachers.Bot.Commands
             await parameters.SendTextAnswerAsync("Шукаю: " + ei);
 
             var teachers = await _service.GetTeachersByContainsEducationalInstitutionAsync(ei);
-            await _presenter.PresentAsync(parameters.ChatId, parameters.BotClient, teachers);
+            await _presenter.PresentAsync(parameters, teachers);
         }
     }
 }
