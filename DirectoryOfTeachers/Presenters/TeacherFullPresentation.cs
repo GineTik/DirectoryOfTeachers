@@ -17,10 +17,11 @@ namespace DirectoryOfTeachers.Bot.Presenters
 
         public async Task PresentAsync(long chatId, ITelegramBotClient bot, TeacherFullDTO model)
         {
-            var keyboard = new InlineKeyboardMarkup(
-                _buttonFactory.CreateButton<AddCharacteristicButton>("Додати нову характеристику", model.Id));
-
             ArgumentNullException.ThrowIfNull(model);
+            
+            var keyboard = new InlineKeyboardMarkup(new[] {
+                _buttonFactory.CreateButton<RemoveTeacherButton>("Видалити вчителя", model.Id),
+                _buttonFactory.CreateButton<AddCharacteristicButton>("Додати нову характеристику", model.Id) });
 
             var characteristics = String.Join("\n", model.Characteristics.Select(c => c.Name + " " + c.LikeCount));
 

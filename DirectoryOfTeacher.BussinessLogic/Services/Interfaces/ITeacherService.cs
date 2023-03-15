@@ -9,6 +9,7 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Interfaces
         Task<IEnumerable<TeacherShortDTO>> GetSimilarTeachersAsync(TeacherShortDTO dto);
         Task<TeacherFullDTO?> GetTeacherAsync(TeacherShortDTO dto);
         Task<bool> AddTeacherAsync(AddTeacherDTO dto);
-        Task<bool> RemoveTeacherAsync(TeacherShortDTO dto);
+        Task<bool> RemoveTeacherAsync(int id);
+        Task<bool> IsTeacherExistsAsync(int id);
     }
 }

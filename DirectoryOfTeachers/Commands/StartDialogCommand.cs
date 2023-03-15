@@ -1,9 +1,8 @@
-﻿using DirectoryOfTeachers.Framework.Attributes;
+﻿using DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations;
+using DirectoryOfTeachers.Framework.Attributes;
 using DirectoryOfTeachers.Framework.Commands;
-using DirectoryOfTeachers.Framework.Parameters;
-using DirectoryOfTeachers.Bot.Dialogs.DialogsImplementations;
-using DirectoryOfTeachers.Framework.Dialogs.Extensions;
 using DirectoryOfTeachers.Framework.Dialogs;
+using DirectoryOfTeachers.Framework.Parameters;
 
 namespace DirectoryOfTeachers.Bot.Commands
 {

@@ -23,7 +23,7 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
                 Name = dto.Name,
                 EducationalInstitution = dto.EducationalInstitution,
             };
-            var result = _context.Teachers.Add(teacher).State == EntityState.Added;
+            var result = (await _context.Teachers.AddAsync(teacher)).State == EntityState.Added;
             await _context.SaveChangesAsync(); 
             return result;
         }
@@ -86,14 +86,14 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
                 teachers.Select(t => new TeacherShortDTO { Name = t.Name, EducationalInstitution = t.EducationalInstitution }));
         }
 
-        public async Task<bool> RemoveTeacherAsync(TeacherShortDTO dto)
+        public async Task<bool> IsTeacherExistsAsync(int id)
         {
-            var teacher = new Teacher()
-            {
-                Name = dto.Name,
-                EducationalInstitution = dto.EducationalInstitution,
-            };
-            var result = _context.Teachers.Remove(teacher).State == EntityState.Deleted;
+            return await _context.Teachers.AnyAsync(t => t.Id == id);
+        }
+
+        public async Task<bool> RemoveTeacherAsync(int id)
+        {
+            var result = _context.Teachers.Remove(new Teacher { Id = id }).State == EntityState.Deleted;
             await _context.SaveChangesAsync();
             return result;
         }

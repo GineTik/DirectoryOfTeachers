@@ -23,9 +23,11 @@ namespace DirectoryOfTeacher.BussinessLogic.Services.Implementations
             };
 
             var result = await _context.TeacherCharacteristics.AddAsync(characteristic);
+
+            var isAdded = result.State == Microsoft.EntityFrameworkCore.EntityState.Added;
             await _context.SaveChangesAsync();
 
-            return result.State == Microsoft.EntityFrameworkCore.EntityState.Added;
+            return isAdded;
         }
     }
 }

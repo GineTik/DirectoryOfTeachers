@@ -20,7 +20,9 @@ namespace DirectoryOfTeachers.Bot.Configures
             services.AddButtons();
 
             services.AddDbContext<DataContext>(options =>
-                options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString));
+                options.UseSqlServer(ConfigurationManager.ConnectionStrings["DefaultConnection"].ConnectionString), 
+                contextLifetime: ServiceLifetime.Transient, 
+                optionsLifetime: ServiceLifetime.Transient);
             
             services.AddTransient<ITeacherService, TeacherService>();
             services.AddTransient<ITeacherCharacteristicService, TeacherCharacteristicService>();
